@@ -6,8 +6,30 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Videos from './Videos';
 import Settings from './Herramientas';
 import Herramientas from './Herramientas';
+import TransferenceFirst from './transferences/TransferenceFirst';
+import TransferenceSecond from './transferences/TransferenceSecond';
+import TransferenceThird from './transferences/TransferenceThird';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+
+function TransferenceStackScreen() {
+    const TransferenceStack = createStackNavigator();
+    return(
+        <TransferenceStack.Navigator>
+            <TransferenceStack.Screen name="First" component={TransferenceFirst} />
+            <TransferenceStack.Screen name="Second" component={TransferenceSecond} />
+            <TransferenceStack.Screen name="Third" component={TransferenceThird} />
+        </TransferenceStack.Navigator>
+    )
+}
+
 export default class Tab extends Component {
+
+
+
     render() {
+        
         const Tabs = createBottomTabNavigator();
         return(
             <Fragment>
@@ -30,12 +52,12 @@ export default class Tab extends Component {
                     }}
                 />
                 <Tabs.Screen 
-                    name="Videos"
-                    component={Videos} 
+                    name="Transference"
+                    component={TransferenceStackScreen} 
                     options={{
-                        tabBarLabel: 'Video',
+                        tabBarLabel: 'Transference',
                         tabBarIcon: ({color, size}) => (
-                        <MaterialCommunityIcons name="bell" color={color} size={size}/>
+                        <MaterialCommunityIcons name="home" color={color} size={size}/>
                         )
                     }}
                 />
@@ -53,3 +75,13 @@ export default class Tab extends Component {
             </Fragment>)
     }
 }
+              /*<Tabs.Screen 
+                    name="Videos"
+                    component={Videos} 
+                    options={{
+                        tabBarLabel: 'Video',
+                        tabBarIcon: ({color, size}) => (
+                        <MaterialCommunityIcons name="bell" color={color} size={size}/>
+                        )
+                    }}
+                />*/

@@ -1,63 +1,102 @@
-import React, {Component} from 'react';
-import { StyleSheet, View } from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
-import Tab from './app/componentes/Tab'
-import Login from './app/componentes/Login';
-import ConexionFetch from './app/componentes/ConexionFetch';
-import Detalles from './app/componentes/Detalles';
+import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Stack = createStackNavigator();
-//const Tab = createBottomTabNavigator();
-//const Stack = createMaterialBottomTabNavigator();
-//const Tab = createMaterialTopTabNavigator();
-function App() {
+import TransferenceFirst from './app/componentes/transferences/TransferenceFirst';
+import TransferenceSecond from './app/componentes/transferences/TransferenceSecond';
+import TransferenceThird from './app/componentes/transferences/TransferenceThird';
+
+export default function App() {
+  const Tab = createMaterialBottomTabNavigator();
+  const Stack = createStackNavigator()
+
+  function HomeScreen({navigation}) {
+    return (
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <Text>Home Screen</Text>
+  
+        <Button 
+          title="Go to Details"
+          onPress={() => navigation.navigate('Details')}
+        />
+      </View>
+    );
+  }
+  function DetailsScreen({navigation}) {
+    return (
+      <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+        <Text>Details Screen</Text>
+        <Button
+          title="Go back to first screen in stack"
+          onPress={() => navigation.navigate('Home')}
+        />
+      </View>
+    );
+  }
+
+  const TransferenceStackScreen = () => {
+    return(
+      <Stack.Navigator>
+        <Stack.Screen name="First" component={TransferenceFirst}/>
+        <Stack.Screen name="Second" component={TransferenceSecond}/>
+        <Stack.Screen name="Third" component={TransferenceThird}/>
+      </Stack.Navigator>
+    )
+  }
+
   return (
+
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Cerrar Sesion" component={Tab} />
-        <Stack.Screen name="Detalles" component={Detalles} />
-      </Stack.Navigator>
-    </NavigationContainer>
-    /*<NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Movies" component={ConexionFetch} />
-        <Stack.Screen name="Detalles" component={Detalles} />
-      </Stack.Navigator>
-      <Tab.Navigator 
-        initialRouteName="ConexionFetch"
-        tabBarOptions={{
-          activeTintColor: '#e91e63',
-          }}>
-        <Tab.Screen 
-          name="Movies" 
-          component={ConexionFetch}
-          options={{
-            tabBarLabel: 'Movies',
-            tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="home" color={color} size={size}/>
+    <Tab.Navigator
+      initialRouteName="Transference"
+      tabBarOptions={{
+        activeTintColor: '#e91e63',
+      }}>
+      <Tab.Screen 
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color,size}) => (
+            <MaterialComunityIcons name="home" color='#d73a74' size={size}/>
           ),
         }}
-        />
-        <Tab.Screen 
-          name="Detalles"
-          component={Detalles} 
-          options={{
-            tabBarLabel: 'Detalles',
-            tabBarIcon: ({color, size}) => (
-              <MaterialCommunityIcons name="bell" color={color} size={size}/>
-            )
-          }}/>
-      </Tab.Navigator>
-    </NavigationContainer>*/
+      />
+      <Tab.Screen 
+        name="Transference"
+        component={TransferenceStackScreen}
+        options={{
+          tabBarLabel: 'Transference',
+          tabBarIcon: ({color,size}) => (
+            <MaterialComunityIcons name="home" color='#d73a74' size={size}/>
+          ),
+        }}
+      />
+      <Tab.Screen 
+        name="Details"
+        component={DetailsScreen}
+        options={{
+          tabBarLabel: 'Details',
+          tabBarIcon: ({color,size}) => (
+            <MaterialComunityIcons name="bell" color='#d73a74' size={size}/>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  </NavigationContainer>
   );
 }
 
-export default App;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
